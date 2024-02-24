@@ -24,7 +24,6 @@ import { cn } from "@/lib/utils";
 
 import { Background } from "src/components/ui/background";
 
-
 interface NavigationItem {
   name: string;
   href: string;
