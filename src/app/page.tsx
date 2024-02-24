@@ -22,7 +22,7 @@ import {
 
 import { cn } from "@/lib/utils";
 
-import { Background } from "src/components/ui/background.tsx";
+import { Background } from "src/components/ui/background";
 
 
 interface NavigationItem {
