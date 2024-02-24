@@ -22,6 +22,9 @@ import {
 
 import { cn } from "@/lib/utils";
 
+import { Background } from "src/components/ui/background.tsx";
+
+
 interface NavigationItem {
   name: string;
   href: string;
@@ -56,6 +59,7 @@ const userNavigation = [
   { name: "Sign out", href: "#" },
 ];
 
+
 export default function Home() {
   noStore();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -63,6 +67,7 @@ export default function Home() {
   return (
     <main>
       <div>
+      <Background />
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
             as="div"
