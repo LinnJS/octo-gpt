@@ -5,9 +5,6 @@ import { useState } from "react";
 
 import { api } from "@/trpc/react";
 
-
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
 import Spline from "@splinetool/react-spline";
 
 export function Background() {
