@@ -7,13 +7,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
@@ -21,24 +15,9 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { IssueProps } from '@/app/dashboard/actions';
+import { Session } from 'next-auth';
 
-interface NavigationItem {
-  name: string;
-  href: string;
-  icon: any;
-  current: boolean;
-}
-
-const navigation: NavigationItem[] = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-];
-
-export function DashboardLayout({ children, draftTasks }: { children: React.ReactNode; draftTasks: IssueProps[] }) {
+export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -198,14 +177,9 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
                     <span className="hidden lg:flex lg:items-center">
                       <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
-                        Tom Cook
+                        {session.user.name}
                       </span>
                       <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>

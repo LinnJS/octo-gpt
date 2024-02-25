@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <main>
-      <DashboardLayout draftTasks={draftTasks}>{children}</DashboardLayout>
+      <DashboardLayout draftTasks={draftTasks} session={session}>{children}</DashboardLayout>
     </main>
   );
 }
