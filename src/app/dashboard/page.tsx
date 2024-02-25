@@ -1,11 +1,11 @@
 'use server';
 
-import { Background } from 'src/components/ui/background';
+import { redirect } from 'next/navigation';
 
+import { Background } from 'src/components/ui/background';
 import { getDraftTasks, getIssueTasks } from '@/app/dashboard/actions';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { getServerAuthSession } from '@/server/auth';
-import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -30,6 +30,7 @@ export default async function Home() {
             return (
               <Card key={item.id}>
                 <CardHeader>{item.title}</CardHeader>
+                <CardContent>{item.id}</CardContent>
                 <CardContent>{item.body}</CardContent>
                 <CardFooter></CardFooter>
               </Card>
@@ -43,7 +44,8 @@ export default async function Home() {
             return (
               <Card key={item.id}>
                 <CardHeader>{item.title}</CardHeader>
-                <CardContent>{item.body}</CardContent>
+                <CardContent>{item.id}</CardContent>
+                <CardContent>{item.body === '' ? 'No body' : item.body}</CardContent>
                 <CardFooter></CardFooter>
               </Card>
             );
