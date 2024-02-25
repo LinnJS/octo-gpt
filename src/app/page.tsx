@@ -2,6 +2,8 @@
 
 import { unstable_noStore as noStore } from "next/cache";
 
+import { Background } from "src/components/ui/background";
+
 interface NavigationItem {
   name: string;
   href: string;
@@ -21,8 +23,11 @@ export default function Home() {
   noStore();
 
   return (
-    <main>
-      <h1>hello</h1>
+    <main className="min-h-screen mx-auto">
+      <div className="flex justify-center items-center">
+        <Background />
+
+      </div>
     </main>
   );
 }
