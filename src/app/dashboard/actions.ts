@@ -17,7 +17,7 @@ export async function getGithubAccount() {
   return githubAccount;
 }
 
-interface IssueProps {
+export interface IssueProps {
   id: string;
   title: string;
   body: string;
