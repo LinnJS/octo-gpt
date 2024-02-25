@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import type { IssueProps } from '@/app/dashboard/actions';
 import { Session } from 'next-auth';
 
-export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session}) {
+export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
