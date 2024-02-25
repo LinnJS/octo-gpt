@@ -4,9 +4,19 @@ import { Background } from 'src/components/ui/background';
 
 import { getDraftTasks } from '@/app/dashboard/actions';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { getServerAuthSession } from '@/server/auth';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
+  const session = await getServerAuthSession();
+  console.log('session: ', session);
+
+  if (!session) {
+    redirect('/');
+  }
+
   const draftItems = await getDraftTasks();
+  console.log('draftItems: ', draftItems);
 
   return (
     <main className="mx-auto min-h-screen">
