@@ -102,6 +102,7 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
                               return (
                                 <li key={task.id}>
                                   <a
+                                    href={"/dashboard/" + task.id}
                                     className={cn(
                                       false
                                         ? 'bg-gray-800 text-white'
