@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import type { IssueProps } from '@/app/dashboard/actions';
 import { Session } from 'next-auth';
 
-export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session}) {
+export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -67,7 +67,7 @@ export function DashboardLayout({ children, draftTasks, session }: { children: R
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
                     <a href="/dashboard">
-                    <div className="flex h-16 shrink-0 items-center justify-center pt-5 gap-3">
+                  <div className="flex h-16 shrink-0 items-center justify-center pt-5 gap-3">
                     <img
                       className="h-16 w-auto invert"
                       src="/logo.png"
