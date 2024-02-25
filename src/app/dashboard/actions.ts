@@ -142,12 +142,6 @@ export async function getIssueTasks() {
     .filter((item) => 'id' in item.content && 'title' in item.content && 'body' in item.content)
     .map((item) => item.content);
 
-  console.log('nonDraftIssues: ', nonDraftIssues);
-
-  if (!nonDraftIssues.length) {
-    throw new Error('No non-draft issues found');
-  }
-
   return nonDraftIssues;
 }
 
