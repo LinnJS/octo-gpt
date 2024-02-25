@@ -4,20 +4,25 @@ import { signOut } from 'next-auth/react';
 import { Fragment, useState } from 'react';
 import { Dialog, Menu, Transition } from '@headlessui/react';
 
-import {
-  Bars3Icon,
-  BellIcon,
-  Cog6ToothIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon, Cog6ToothIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { IssueProps } from '@/app/dashboard/actions';
 import { Session } from 'next-auth';
+import Image from 'next/image';
+import Logo from '@/logo.png';
 
-export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session }) {
+export function DashboardLayout({
+  children,
+  draftTasks,
+  session,
+}: {
+  children: React.ReactNode;
+  draftTasks: IssueProps[];
+  session: Session;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -67,16 +72,12 @@ export function DashboardLayout({ children, draftTasks, session }: { children: R
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
                     <a href="/dashboard">
-                  <div className="flex h-16 shrink-0 items-center justify-center pt-5 gap-3">
-                    <img
-                      className="h-16 w-auto invert"
-                      src="/logo.png"
-                      alt="Your Company"
-                    />
-                    <h1 className='text-white font-semibold text-3xl'>OctoGPT</h1>
-                  </div>
+                      <div className="flex h-16 shrink-0 items-center justify-center gap-3 pt-5">
+                        <Image className="h-16 w-auto invert" src={Logo} alt="Your Company" />
+                        <h1 className="text-3xl font-semibold text-white">OctoGPT</h1>
+                      </div>
                     </a>
-                  <h3 className='text-white mb-2 font-bold'>Tasks</h3>
+                    <h3 className="mb-2 font-bold text-white">Tasks</h3>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
                         <li>
@@ -85,7 +86,7 @@ export function DashboardLayout({ children, draftTasks, session }: { children: R
                               return (
                                 <li key={task.id}>
                                   <a
-                                    href={"/dashboard/" + task.id}
+                                    href={'/dashboard/' + task.id}
                                     className={cn(
                                       false
                                         ? 'bg-gray-800 text-white'
@@ -123,18 +124,14 @@ export function DashboardLayout({ children, draftTasks, session }: { children: R
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
-          <a href="/dashboard">
-            <div className="flex h-16 shrink-0 items-center justify-center pt-5 gap-3">
-              <img
-                className="h-16 w-auto invert"
-                src="/logo.png"
-                alt="Your Company"
-              />
-              <h1 className='text-white font-semibold text-3xl'>OctoGPT</h1>
-            </div>
+            <a href="/dashboard">
+              <div className="flex h-16 shrink-0 items-center justify-center gap-3 pt-5">
+                <Image className="h-16 w-auto invert" src={Logo} alt="Your Company" />
+                <h1 className="text-3xl font-semibold text-white">OctoGPT</h1>
+              </div>
             </a>
-            <nav className="flex flex-1 flex-col mt-5">
-              <h3 className='text-white mb-2 font-bold'>Tasks</h3>
+            <nav className="mt-5 flex flex-1 flex-col">
+              <h3 className="mb-2 font-bold text-white">Tasks</h3>
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
@@ -142,7 +139,7 @@ export function DashboardLayout({ children, draftTasks, session }: { children: R
                       return (
                         <li key={task.id}>
                           <a
-                          href={"/dashboard/" + task.id}
+                            href={'/dashboard/' + task.id}
                             className={cn(
                               false ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                               'group flex gap-x-3 rounded-md p-2 text-sm leading-6',
@@ -185,11 +182,7 @@ export function DashboardLayout({ children, draftTasks, session }: { children: R
                 <Menu as="div" className="relative">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src={session.user.image || ""}
-                      alt=""
-                    />
+                    <img className="h-8 w-8 rounded-full bg-gray-50" src={session.user.image || ''} alt="" />
                     <span className="hidden lg:flex lg:items-center">
                       <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
                         {session.user.name}
