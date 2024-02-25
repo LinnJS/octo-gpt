@@ -1,14 +1,10 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import {
-  getServerSession,
-  type DefaultSession,
-  type NextAuthOptions,
-} from "next-auth";
-import { type Adapter } from "next-auth/adapters";
-import GithubProvider from "next-auth/providers/github";
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { getServerSession, type DefaultSession, type NextAuthOptions } from 'next-auth';
+import { type Adapter } from 'next-auth/adapters';
+import GithubProvider from 'next-auth/providers/github';
 
-import { env } from "@/env";
-import { db } from "@/server/db";
+import { env } from '@/env';
+import { db } from '@/server/db';
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -16,13 +12,13 @@ import { db } from "@/server/db";
  *
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
-declare module "next-auth" {
+declare module 'next-auth' {
   interface Session extends DefaultSession {
     user: {
       id: string;
       // ...other properties
       // role: UserRole;
-    } & DefaultSession["user"];
+    } & DefaultSession['user'];
   }
 
   // interface User {
@@ -38,13 +34,20 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-      },
-    }),
+    session: ({ session, user }) => {
+      console.log('session user: ', { session, user });
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+        },
+      };
+    },
+    async jwt({ token, user, account, profile }) {
+      console.log('jwt token: ', { token, user, account, profile });
+      return { token, account, profile, user };
+    },
   },
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
@@ -53,7 +56,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.GITHUB_CLIENT_SECRET,
       authorization: {
         params: {
-          scope: "repo write:org write:project read:project",
+          scope: 'repo write:org write:project read:project',
         },
       },
     }),

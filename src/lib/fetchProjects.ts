@@ -12,9 +12,10 @@ export async function fetchProjects<T>(graphqlQuery: string, token: string, vari
       }),
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   console.log('response: ', response);
+    //   throw new Error(`HTTP error! status: ${response.status}`);
+    // }
 
     return response;
   } catch (error) {

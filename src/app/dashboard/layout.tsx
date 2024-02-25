@@ -1,13 +1,8 @@
-"use client";
+'use client';
 
-import { signOut } from "next-auth/react";
-
-import "@/styles/globals.css";
-
-import { Inter } from "next/font/google";
-import { Fragment, useState } from "react";
-import { Dialog, Menu, Transition } from "@headlessui/react";
-
+import { signOut } from 'next-auth/react';
+import { Fragment, useState } from 'react';
+import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   BellIcon,
@@ -19,10 +14,13 @@ import {
   HomeIcon,
   UsersIcon,
   XMarkIcon,
-} from "@heroicons/react/24/outline";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+} from '@heroicons/react/24/outline';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
-import { cn } from "@/lib/utils";
+import { TRPCReactProvider } from '@/trpc/react';
+import { Button } from '@/components/ui/button';
+
+import { cn } from '@/lib/utils';
 
 interface NavigationItem {
   name: string;
@@ -31,41 +29,25 @@ interface NavigationItem {
   current: boolean;
 }
 
-import { TRPCReactProvider } from "@/trpc/react";
-import { Button } from "@/components/ui/button";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
 const navigation: NavigationItem[] = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
+  { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
+  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
+  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
+  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
 ];
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+      <body>
         <TRPCReactProvider>
           <div>
             <Transition.Root show={sidebarOpen} as={Fragment}>
-              <Dialog
-                as="div"
-                className="relative z-50 lg:hidden"
-                onClose={setSidebarOpen}
-              >
+              <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
                 <Transition.Child
                   as={Fragment}
                   enter="transition-opacity ease-linear duration-300"
@@ -99,16 +81,9 @@ export default function RootLayout({
                         leaveTo="opacity-0"
                       >
                         <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
-                          <button
-                            type="button"
-                            className="-m-2.5 p-2.5"
-                            onClick={() => setSidebarOpen(false)}
-                          >
+                          <button type="button" className="-m-2.5 p-2.5" onClick={() => setSidebarOpen(false)}>
                             <span className="sr-only">Close sidebar</span>
-                            <XMarkIcon
-                              className="h-6 w-6 text-white"
-                              aria-hidden="true"
-                            />
+                            <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
                           </button>
                         </div>
                       </Transition.Child>
@@ -122,10 +97,7 @@ export default function RootLayout({
                           />
                         </div>
                         <nav className="flex flex-1 flex-col">
-                          <ul
-                            role="list"
-                            className="flex flex-1 flex-col gap-y-7"
-                          >
+                          <ul role="list" className="flex flex-1 flex-col gap-y-7">
                             <li>
                               <ul role="list" className="-mx-2 space-y-1">
                                 {navigation.map((item) => (
@@ -134,15 +106,12 @@ export default function RootLayout({
                                       href={item.href}
                                       className={cn(
                                         item.current
-                                          ? "bg-gray-800 text-white"
-                                          : "text-gray-400 hover:bg-gray-800 hover:text-white",
-                                        "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                                          ? 'bg-gray-800 text-white'
+                                          : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                                        'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                                       )}
                                     >
-                                      <item.icon
-                                        className="h-6 w-6 shrink-0"
-                                        aria-hidden="true"
-                                      />
+                                      <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                       {item.name}
                                     </a>
                                   </li>
@@ -155,10 +124,7 @@ export default function RootLayout({
                                 href="#"
                                 className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                               >
-                                <Cog6ToothIcon
-                                  className="h-6 w-6 shrink-0"
-                                  aria-hidden="true"
-                                />
+                                <Cog6ToothIcon className="h-6 w-6 shrink-0" aria-hidden="true" />
                                 Settings
                               </a>
                             </li>
@@ -192,15 +158,12 @@ export default function RootLayout({
                               href={item.href}
                               className={cn(
                                 item.current
-                                  ? "bg-gray-800 text-white"
-                                  : "text-gray-400 hover:bg-gray-800 hover:text-white",
-                                "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6",
+                                  ? 'bg-gray-800 text-white'
+                                  : 'text-gray-400 hover:bg-gray-800 hover:text-white',
+                                'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
                               )}
                             >
-                              <item.icon
-                                className="h-6 w-6 shrink-0"
-                                aria-hidden="true"
-                              />
+                              <item.icon className="h-6 w-6 shrink-0" aria-hidden="true" />
                               {item.name}
                             </a>
                           </li>
@@ -224,27 +187,18 @@ export default function RootLayout({
                 </button>
 
                 {/* Separator */}
-                <div
-                  className="h-6 w-px bg-gray-900/10 lg:hidden"
-                  aria-hidden="true"
-                />
+                <div className="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true" />
 
                 <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                   <div className="relative flex flex-1"></div>
                   <div className="flex items-center gap-x-4 lg:gap-x-6">
-                    <button
-                      type="button"
-                      className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-                    >
+                    <button type="button" className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                       <span className="sr-only">View notifications</span>
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
 
                     {/* Separator */}
-                    <div
-                      className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10"
-                      aria-hidden="true"
-                    />
+                    <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
                     {/* Profile dropdown */}
                     <Menu as="div" className="relative">
@@ -256,16 +210,10 @@ export default function RootLayout({
                           alt=""
                         />
                         <span className="hidden lg:flex lg:items-center">
-                          <span
-                            className="ml-4 text-sm font-semibold leading-6 text-gray-900"
-                            aria-hidden="true"
-                          >
+                          <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
                             Tom Cook
                           </span>
-                          <ChevronDownIcon
-                            className="ml-2 h-5 w-5 text-gray-400"
-                            aria-hidden="true"
-                          />
+                          <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                         </span>
                       </Menu.Button>
                       <Transition
@@ -284,8 +232,8 @@ export default function RootLayout({
                                 variant="link"
                                 onClick={() => signOut()}
                                 className={cn(
-                                  active ? "bg-gray-50" : "",
-                                  "block w-full px-3 py-1 text-sm leading-6 text-gray-900",
+                                  active ? 'bg-gray-50' : '',
+                                  'block w-full px-3 py-1 text-sm leading-6 text-gray-900',
                                 )}
                               >
                                 Logout

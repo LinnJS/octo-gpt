@@ -1,9 +1,21 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
+import { api } from '@/trpc/react';
 
 export default function Login() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  console.log('session: ', session);
+
+  // if session.user exist redirect to dashboard
+  if (session?.user) {
+    router.push('/dashboard');
+  }
+
   return (
     <main className="h-full min-h-screen bg-gray-50">
       <div className="flex min-h-screen flex-1  flex-col items-center  justify-center py-12 sm:px-6 lg:px-8">

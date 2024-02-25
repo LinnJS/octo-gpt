@@ -82,14 +82,16 @@ export async function getDraftTasks() {
 
   const data = (await fetchGitHubProjectItems(userAccounts.access_token)) as DraftsQueryResponse;
 
+  console.log('data: ', data);
+
   const nodes = data?.data?.node?.items?.nodes;
   const draftIssues = nodes
     ?.filter((item) => 'id' in item.content && 'title' in item.content && 'body' in item.content)
     ?.map((item) => item.content) as DraftIssue[];
 
-  if (!draftIssues.length) {
-    throw new Error('No draft issues found');
-  }
+  // if (!draftIssues.length) {
+  //   throw new Error('No draft issues found');
+  // }
 
   return draftIssues;
 }
