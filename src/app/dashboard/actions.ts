@@ -82,7 +82,7 @@ export async function getDraftTasks() {
 
   const data = (await getDraftItems(userAccounts.access_token)) as DraftsQueryResponse;
 
-  console.log('data: ', data);
+  //console.log('data: ', data);
 
   const nodes = data?.data?.node?.items?.nodes;
 
@@ -134,7 +134,7 @@ export async function getIssueTasks() {
   }
 
   const data = (await getIssueItems(userAccounts.access_token)) as DraftsQueryResponse;
-  console.log('data: ', data);
+  //console.log('data: ', data);
 
   const nodes = data.data.node.items.nodes;
 

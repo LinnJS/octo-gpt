@@ -7,13 +7,7 @@ import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
   Bars3Icon,
   BellIcon,
-  CalendarIcon,
-  ChartPieIcon,
   Cog6ToothIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
@@ -21,24 +15,9 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { IssueProps } from '@/app/dashboard/actions';
+import { Session } from 'next-auth';
 
-interface NavigationItem {
-  name: string;
-  href: string;
-  icon: any;
-  current: boolean;
-}
-
-const navigation: NavigationItem[] = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Team', href: '#', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '#', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '#', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '#', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartPieIcon, current: false },
-];
-
-export function DashboardLayout({ children, draftTasks }: { children: React.ReactNode; draftTasks: IssueProps[] }) {
+export function DashboardLayout({ children, draftTasks, session }: { children: React.ReactNode; draftTasks: IssueProps[]; session: Session }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -87,13 +66,17 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
-                    <div className="flex h-16 shrink-0 items-center">
-                      <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                      />
-                    </div>
+                    <a href="/dashboard">
+                  <div className="flex h-16 shrink-0 items-center justify-center pt-5 gap-3">
+                    <img
+                      className="h-16 w-auto invert"
+                      src="/logo.png"
+                      alt="Your Company"
+                    />
+                    <h1 className='text-white font-semibold text-3xl'>OctoGPT</h1>
+                  </div>
+                    </a>
+                  <h3 className='text-white mb-2 font-bold'>Tasks</h3>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
                         <li>
@@ -102,6 +85,7 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
                               return (
                                 <li key={task.id}>
                                   <a
+                                    href={"/dashboard/" + task.id}
                                     className={cn(
                                       false
                                         ? 'bg-gray-800 text-white'
@@ -139,14 +123,18 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
+          <a href="/dashboard">
+            <div className="flex h-16 shrink-0 items-center justify-center pt-5 gap-3">
               <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                className="h-16 w-auto invert"
+                src="/logo.png"
                 alt="Your Company"
               />
+              <h1 className='text-white font-semibold text-3xl'>OctoGPT</h1>
             </div>
-            <nav className="flex flex-1 flex-col">
+            </a>
+            <nav className="flex flex-1 flex-col mt-5">
+              <h3 className='text-white mb-2 font-bold'>Tasks</h3>
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul role="list" className="-mx-2 space-y-1">
@@ -154,9 +142,10 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
                       return (
                         <li key={task.id}>
                           <a
+                          href={"/dashboard/" + task.id}
                             className={cn(
                               false ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white',
-                              'group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6',
+                              'group flex gap-x-3 rounded-md p-2 text-sm leading-6',
                             )}
                           >
                             {task.title}
@@ -198,12 +187,12 @@ export function DashboardLayout({ children, draftTasks }: { children: React.Reac
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={session.user.image || ""}
                       alt=""
                     />
                     <span className="hidden lg:flex lg:items-center">
                       <span className="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">
-                        Tom Cook
+                        {session.user.name}
                       </span>
                       <ChevronDownIcon className="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
