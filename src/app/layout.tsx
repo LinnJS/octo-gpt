@@ -7,6 +7,7 @@ import "@/styles/globals.css";
 import { Inter } from "next/font/google";
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+
 import {
   Bars3Icon,
   BellIcon,
@@ -30,14 +31,6 @@ interface NavigationItem {
   current: boolean;
 }
 
-interface Team {
-  id: number;
-  name: string;
-  href: string;
-  initial: string;
-  current: boolean;
-}
-
 import { TRPCReactProvider } from "@/trpc/react";
 import { Button } from "@/components/ui/button";
 
@@ -53,16 +46,6 @@ const navigation: NavigationItem[] = [
   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
-];
-
-const teams: Team[] = [
-  { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-  { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-  { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-];
-const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
 ];
 
 export default function RootLayout({
