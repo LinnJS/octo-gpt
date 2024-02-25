@@ -17,7 +17,7 @@ export async function getGithubAccount() {
   return githubAccount;
 }
 
-interface DraftIssue {
+export interface IssueProps {
   id: string;
   title: string;
   body: string;
@@ -28,7 +28,7 @@ interface DraftIssue {
 }
 
 interface DraftNodeItem {
-  content: DraftIssue | Record<string, never>;
+  content: IssueProps | Record<string, never>;
 }
 
 type DraftsQueryResponse = {
@@ -41,7 +41,7 @@ type DraftsQueryResponse = {
   };
 };
 
-const fetchGitHubProjectItems = async (token: string) => {
+const getDraftItems = async (token: string) => {
   const graphqlQuery = {
     query: `
       {
@@ -80,20 +80,75 @@ export async function getDraftTasks() {
     throw new Error('GitHub access token not found');
   }
 
-  const data = (await fetchGitHubProjectItems(userAccounts.access_token)) as DraftsQueryResponse;
+  const data = (await getDraftItems(userAccounts.access_token)) as DraftsQueryResponse;
 
   console.log('data: ', data);
 
   const nodes = data?.data?.node?.items?.nodes;
+
   const draftIssues = nodes
     ?.filter((item) => 'id' in item.content && 'title' in item.content && 'body' in item.content)
-    ?.map((item) => item.content) as DraftIssue[];
+    ?.map((item) => item.content) as IssueProps[];
 
   // if (!draftIssues.length) {
   //   throw new Error('No draft issues found');
   // }
 
   return draftIssues;
+}
+
+const getIssueItems = async (token: string) => {
+  const graphqlQuery = {
+    query: `
+      {
+        node(id: "PVT_kwHOAWpDi84AdSIq") {
+          ... on ProjectV2 {
+            items(first: 10) {
+              nodes {
+                content {
+                  ... on Issue {
+                    id
+                    title
+                    body
+                    updatedAt
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+  };
+
+  const response = await fetchProjects(graphqlQuery.query, token);
+
+  return response.json();
+};
+
+export async function getIssueTasks() {
+  const userAccounts = await getGithubAccount();
+
+  if (!userAccounts?.access_token) {
+    throw new Error('GitHub access token not found');
+  }
+
+  const data = (await getIssueItems(userAccounts.access_token)) as DraftsQueryResponse;
+  console.log('data: ', data);
+
+  const nodes = data.data.node.items.nodes;
+
+  const nonDraftIssues = nodes
+    .filter((item) => 'id' in item.content && 'title' in item.content && 'body' in item.content)
+    .map((item) => item.content);
+
+  console.log('nonDraftIssues: ', nonDraftIssues);
+
+  if (!nonDraftIssues.length) {
+    throw new Error('No non-draft issues found');
+  }
+
+  return nonDraftIssues;
 }
 
 export async function updateDraftIssueBody(issueId: string, newBody: string) {
@@ -127,7 +182,7 @@ export async function updateDraftIssueBody(issueId: string, newBody: string) {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return jsonResponse.data.updateIssue.issue as DraftIssue;
+    return jsonResponse.data.updateIssue.issue as IssueProps;
   } catch (error) {
     console.error('Error updating draft issue body:', error);
     throw error;
